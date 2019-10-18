@@ -1,0 +1,33 @@
+{
+  "name": "react-native-album-list",
+  "version": "0.1.3",
+  "description": "Get all media by album",
+  "scripts": {
+    "test": "command for testing package"
+  },
+  "homepage": "https://github.com/TranHanHieu/react-native-album-list",
+  "main": "./AlbumsList.js",
+  "bugs": {
+    "url": "https://github.com/TranHanHieu/react-native-album-list/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TranHanHieu/react-native-album-list"
+  },
+  "license": "MIT",
+  "author": "",
+  "keywords": [
+    "react-component",
+    "react-native",
+    "gallery",
+    "album",
+    "bucket",
+    "android",
+    "ios"
+  ],
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "eslint": "^2.13.1",
+    "eslint-plugin-react": "^4.3.0"
+  }
+}
