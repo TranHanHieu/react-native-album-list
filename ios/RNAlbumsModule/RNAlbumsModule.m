@@ -117,8 +117,13 @@ PHFetchResult<PHAssetCollection *> *collections =
             // Do something with the asset
             NSLog(@"asset %@", [NSString stringWithFormat:@"ph://%@", asset.localIdentifier]);
             NSString * type = @"video";
+            NSString * uri = [NSString stringWithFormat:@"ph://%@", asset.localIdentifier];
+
             if (asset.mediaType == 1) {
                 type = @"image";
+            }
+            if (asset.mediaType == 2) {
+              uri = [NSString stringWithFormat:@"assets-library://asset/asset.mp4?id=%@&ext=mp4", [asset.localIdentifier componentsSeparatedByString:@"/"][0]];
             }
             NSDictionary *ima = @{
                 @"node": @{
@@ -130,7 +135,7 @@ PHFetchResult<PHAssetCollection *> *collections =
                             @"width": @(asset.pixelWidth),
                             @"height": @(asset.pixelHeight),
                             @"playableDuration": @(asset.duration),
-                            @"uri": [NSString stringWithFormat:@"ph://%@", asset.localIdentifier]
+                            @"uri": uri
                         }
                 }};
                                 
