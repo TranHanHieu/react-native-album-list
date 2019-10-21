@@ -126,6 +126,7 @@ PHFetchResult<PHAssetCollection *> *collections =
                         @"timestamp": asset.creationDate,
                         @"group_name": obj.localizedTitle,
                         @"image": @{
+                            @"type": type,
                             @"width": @(asset.pixelWidth),
                             @"height": @(asset.pixelHeight),
                             @"playableDuration": @(asset.duration),
