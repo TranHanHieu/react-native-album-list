@@ -30,5 +30,8 @@ export default {
     copyAssetsVideoIOS(videoUri, destPath) {
         return NativeModules.RNAlbumsModule.copyAssetsVideoIOS(videoUri, destPath);
     },
+    compressVideo(videoUri, destPath) {
+        return NativeModules.RNAlbumsModule.compressVideo(videoUri, destPath);
+    },
     TemporaryDirectoryPath: NativeModules.RNAlbumsModule.RNFSTemporaryDirectoryPath
 };

@@ -208,6 +208,24 @@ RCT_EXPORT_METHOD(copyAssetsVideoIOS: (NSString *) imageUri
 
   resolve(destination);
 }
+
+RCT_EXPORT_METHOD(compressVideo:(NSURL*)inputURL
+        outputURL:(NSURL*)outputURL
+        resolver: (RCTPromiseResolveBlock) resolve
+        rejecter: (RCTPromiseRejectBlock) reject)  {
+    
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
+    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPresetMediumQuality];
+    exportSession.outputURL = outputURL;
+    exportSession.outputFileType = AVFileTypeQuickTimeMovie;
+    exportSession.shouldOptimizeForNetworkUse = YES;
+    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+        NSData *newOutputData = [NSData dataWithContentsOfURL:outputURL];
+        NSLog(@"Size of New Video(bytes):%d",[newOutputData length]);
+        resolve([outputURL absoluteString]);
+    }];
+}
+
 - (NSDictionary *)constantsToExport
 {
   return @{
