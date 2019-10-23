@@ -26,5 +26,9 @@ export default {
 
     getAlbumList(options: albumListOptions = {}) {
         return NativeModules.RNAlbumsModule.getAlbumList(options);
-    }
+    },
+    copyAssetsVideoIOS(videoUri, destPath) {
+        return NativeModules.RNAlbumsModule.copyAssetsVideoIOS(videoUri, destPath);
+    },
+    TemporaryDirectoryPath: NativeModules.RNAlbumsModule.RNFSTemporaryDirectoryPath
 };

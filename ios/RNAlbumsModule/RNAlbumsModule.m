@@ -160,6 +160,61 @@ PHFetchResult<PHAssetCollection *> *collections =
   }];
 }
 
+RCT_EXPORT_METHOD(copyAssetsVideoIOS: (NSString *) imageUri
+                  atFilepath: (NSString *) destination
+                  resolver: (RCTPromiseResolveBlock) resolve
+                  rejecter: (RCTPromiseRejectBlock) reject)
+{
+  NSURL* url = [NSURL URLWithString:imageUri];
+  //unused?
+  //__block NSURL* videoURL = [NSURL URLWithString:destination];
+  __block NSError *error = nil;
+  
+  PHFetchResult *phAssetFetchResult = [PHAsset fetchAssetsWithALAssetURLs:@[url] options:nil];
+  PHAsset *phAsset = [phAssetFetchResult firstObject];
+    
+  PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+  options.networkAccessAllowed = YES;
+  options.version = PHVideoRequestOptionsVersionOriginal;
+  options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
+  
+  dispatch_group_t group = dispatch_group_create();
+  dispatch_group_enter(group);
+
+  [[PHImageManager defaultManager] requestAVAssetForVideo:phAsset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+
+    if ([asset isKindOfClass:[AVURLAsset class]]) {
+      NSURL *url = [(AVURLAsset *)asset URL];
+      NSLog(@"Final URL %@",url);
+      NSData *videoData = [NSData dataWithContentsOfURL:url];
+
+      BOOL writeResult = [videoData writeToFile:destination options:NSDataWritingAtomic error:&error];
+
+      if(writeResult) {
+        NSLog(@"video success");
+      }
+      else {
+        NSLog(@"video failure");
+      }
+      dispatch_group_leave(group);
+    }
+  }];
+  dispatch_group_wait(group,  DISPATCH_TIME_FOREVER);
+
+  if (error) {
+    NSLog(@"RNFS: %@", error);
+    reject(@"RNFS", error, error);
+  }
+
+  resolve(destination);
+}
+- (NSDictionary *)constantsToExport
+{
+  return @{
+           @"RNFSTemporaryDirectoryPath": NSTemporaryDirectory()
+          };
+}
+
 typedef void (^authorizeCompletion)(BOOL);
 
 + (void)authorize:(authorizeCompletion)completion {
