@@ -81,7 +81,7 @@ PHFetchResult<PHAssetCollection *> *collections =
         
         PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
         // fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType == %d", PHAssetMediaTypeImage];
-        // fetchOptions.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES] ];
+        fetchOptions.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO] ];
         PHFetchResult *collectionResult = [PHAsset fetchAssetsInAssetCollection:obj options: fetchOptions];
         // __block PHAssetCollection *collection = obj;
         NSLog(@"collectionResult %@", collectionResult);
